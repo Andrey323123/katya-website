@@ -3,1177 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Для Самой Особенной ✨</title>
+    <title>💌 Письмо Кате</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💌</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+    </style>
 </head>
 <body>
     <!-- Фоновые элементы -->
-    <div class="hearts-background"></div>
-    <div class="floating-hearts"></div>
-    <div class="sparkles"></div>
-    <canvas id="particles-canvas"></canvas>
-
-    <!-- Лоадер -->
-    <div class="loader" id="loader">
-        <div class="loader-heart">
-            <i class="fas fa-heart"></i>
-        </div>
-        <p>Загружаем волшебство...</p>
-        <div class="loader-progress">
-            <div class="loader-bar"></div>
+    <div class="paper-texture"></div>
+    <div class="ink-blots"></div>
+    <div class="floating-letters"></div>
+    
+    <!-- Эффект свечи -->
+    <div class="candle-effect">
+        <div class="candle-flame"></div>
+        <div class="candle-light"></div>
+    </div>
+    
+    <!-- Меню музыки -->
+    <div class="music-controls">
+        <button id="musicToggle" class="music-btn">
+            <i class="fas fa-music"></i>
+        </button>
+        <div class="volume-control">
+            <input type="range" id="volumeSlider" min="0" max="100" value="30">
         </div>
     </div>
-
+    
     <!-- Главный контейнер -->
-    <div class="container" id="main-content" style="opacity: 0;">
-        <!-- Хедер с именем -->
-        <header class="header">
-            <div class="name-container" data-aos="fade-down">
-                <h1 class="main-name" id="mainName">Катя</h1>
-                <p class="subtitle">Самое прекрасное имя во Вселенной</p>
-                
-                <!-- Смена имени -->
-                <div class="name-changer">
-                    <button class="name-btn" onclick="changeNameLanguage()">
-                        <i class="fas fa-globe"></i> Узнать её имя на других языках
-                    </button>
-                    <div class="name-list" id="nameList">
-                        <!-- Динамически заполнится через JS -->
+    <div class="container">
+        <!-- Конверт -->
+        <div class="envelope" id="envelope">
+            <div class="envelope-front">
+                <div class="stamp">
+                    <span>💌</span>
+                </div>
+                <div class="address">
+                    <p>Для самой особенной</p>
+                    <h2>Катюши</h2>
+                    <p class="from">От того, кто ценит каждую минуту</p>
+                </div>
+                <div class="open-hint">
+                    <i class="fas fa-hand-point-up"></i>
+                    <p>Нажми, чтобы открыть письмо</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Письмо -->
+        <div class="letter-container" id="letterContainer">
+            <!-- Лист бумаги -->
+            <div class="letter-paper">
+                <!-- Заголовок письма -->
+                <div class="letter-header">
+                    <div class="letter-date" id="currentDate">Загрузка даты...</div>
+                    <div class="letter-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>От сердца к сердцу</span>
                     </div>
+                </div>
+                
+                <!-- Обращение -->
+                <div class="letter-salutation">
+                    <h1>Дорогая Катя,</h1>
+                    <div class="salutation-decoration">
+                        <div class="line"></div>
+                        <div class="heart">💖</div>
+                        <div class="line"></div>
+                    </div>
+                </div>
+                
+                <!-- Текст письма с печатной машинкой -->
+                <div class="letter-content">
+                    <div class="typewriter-container">
+                        <div class="typewriter-text" id="typewriterText">
+                            <!-- Текст будет добавляться постепенно -->
+                        </div>
+                        <div class="cursor" id="cursor">|</div>
+                        
+                        <!-- Прогресс письма -->
+                        <div class="letter-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span id="currentWord">0</span>/<span id="totalWords">0</span> слов
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Подпись -->
+                <div class="letter-signature">
+                    <div class="signature-line"></div>
+                    <div class="signature-content">
+                        <p>С теплом и надеждой,</p>
+                        <h3 class="signature-name">Тот, кто верит в волшебство</h3>
+                        <div class="signature-seal">
+                            <div class="seal">
+                                <span>К</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Постскриптум -->
+                <div class="postscript">
+                    <p class="ps-label">P.S.</p>
+                    <p class="ps-text">Это письмо написано не просто словами, а частичкой души.</p>
+                </div>
+                
+                <!-- Контролы письма -->
+                <div class="letter-controls">
+                    <button class="control-btn" id="pauseBtn">
+                        <i class="fas fa-pause"></i> Пауза
+                    </button>
+                    <button class="control-btn" id="resumeBtn">
+                        <i class="fas fa-play"></i> Продолжить
+                    </button>
+                    <button class="control-btn" id="speedUpBtn">
+                        <i class="fas fa-forward"></i> Быстрее
+                    </button>
+                    <button class="control-btn" id="resetBtn">
+                        <i class="fas fa-redo"></i> Заново
+                    </button>
+                    <button class="control-btn heart-btn" id="heartBtn">
+                        <i class="fas fa-heart"></i> Отправить сердечко
+                    </button>
+                </div>
+                
+                <!-- Секретное сообщение -->
+                <div class="secret-message">
+                    <p class="secret-hint">
+                        <i class="fas fa-key"></i> Секрет: нажми пробел для волшебства
+                    </p>
                 </div>
             </div>
             
-            <!-- Навигация -->
-            <nav class="nav-menu">
-                <button class="nav-btn active" data-section="home"><i class="fas fa-home"></i> Главная</button>
-                <button class="nav-btn" data-section="about"><i class="fas fa-star"></i> Особенности</button>
-                <button class="nav-btn" data-section="gallery"><i class="fas fa-images"></i> Галерея</button>
-                <button class="nav-btn" data-section="reasons"><i class="fas fa-heart"></i> 100 причин</button>
-                <button class="nav-btn" data-section="world"><i class="fas fa-globe-americas"></i> Мир её глазами</button>
-                <button class="nav-btn" data-section="music"><i class="fas fa-music"></i> Саундтрек</button>
-                <button class="nav-btn" data-section="secret"><i class="fas fa-key"></i> Секретная комната</button>
-            </nav>
-            
-            <!-- Таймер знакомства -->
-            <div class="timer-container" data-aos="zoom-in">
-                <div class="timer">
+            <!-- Конверты для ответа -->
+            <div class="reply-section">
+                <h3><i class="fas fa-reply"></i> Если захочешь ответить...</h3>
+                <div class="reply-options">
+                    <div class="reply-envelope" id="replyYes">
+                        <div class="envelope-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <p>Да, я прочитала</p>
+                    </div>
+                    <div class="reply-envelope" id="replyMaybe">
+                        <div class="envelope-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>Спасибо за письмо</p>
+                    </div>
+                    <div class="reply-envelope" id="replySecret">
+                        <div class="envelope-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <p>Секретное сообщение</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Эффекты -->
+        <div class="effects-container">
+            <div class="hearts-container" id="heartsContainer"></div>
+            <div class="sparkles-container" id="sparklesContainer"></div>
+        </div>
+    </div>
+    
+    <!-- Аудио -->
+    <audio id="typewriterSound" preload="auto">
+        <source src="sounds/typewriter.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="pageTurnSound" preload="auto">
+        <source src="sounds/page-turn.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="musicTrack" loop>
+        <source src="music/romantic-piano.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Модальное окно для секретного сообщения -->
+    <div class="modal" id="secretModal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-header">
+                <i class="fas fa-lock-open"></i>
+                <h2>Секретное послание</h2>
+            </div>
+            <div class="modal-body">
+                <p class="secret-date">Дата: <span id="secretDate"></span></p>
+                <div class="secret-text">
+                    Катя, даже если это письмо — просто момент в твоей жизни, 
+                    я счастлив, что смог его создать. Ты вдохновляешь на прекрасное.
+                </div>
+                <div class="secret-code">
+                    <p>Код этого письма: <span class="code">КАТЯ-2024</span></p>
+                </div>
+            </div>
+            <button class="modal-btn" onclick="createFireworks()">
+                <i class="fas fa-fireworks"></i> Запустить фейерверк
+            </button>
+        </div>
+    </div>
+    
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">
+                Это письмо останется здесь навсегда, как и чувства, с которыми оно написано.
+            </p>
+            <div class="footer-stats">
+                <div class="stat">
+                    <i class="fas fa-keyboard"></i>
+                    <span id="totalChars">0</span>
+                    <small>символов</small>
+                </div>
+                <div class="stat">
                     <i class="fas fa-clock"></i>
-                    <span id="friendshipTimer">Загрузка...</span>
+                    <span id="readingTime">0</span>
+                    <small>минут чтения</small>
                 </div>
-                <p class="timer-text">столько времени мир стал ярче</p>
-            </div>
-        </header>
-
-        <!-- Основные секции -->
-        <main class="main-content">
-            <!-- Домашняя секция -->
-            <section class="section active" id="home">
-                <div class="welcome-message" data-aos="fade-up">
-                    <h2><i class="fas fa-gem"></i> Привет, путник!</h2>
-                    <p>Ты попал в особое место — цифровое пространство, посвящённое одной невероятной Кате.</p>
-                    <p>Здесь собраны улыбки, моменты и всё то, что делает её уникальной.</p>
-                    <p>Приготовься к путешествию по миру, где всё немножко светлее и добрее.</p>
-                </div>
-                
-                <div class="quick-facts" data-aos="fade-right">
-                    <div class="fact-card">
-                        <i class="fas fa-sun"></i>
-                        <h3>Уровень солнечности</h3>
-                        <div class="meter">
-                            <div class="meter-fill" style="width: 94%"></div>
-                        </div>
-                        <p>94%</p>
-                    </div>
-                    
-                    <div class="fact-card">
-                        <i class="fas fa-laugh-beam"></i>
-                        <h3>Заразность смеха</h3>
-                        <div class="meter">
-                            <div class="meter-fill" style="width: 98%"></div>
-                        </div>
-                        <p>98%</p>
-                    </div>
-                    
-                    <div class="fact-card">
-                        <i class="fas fa-magic"></i>
-                        <h3>Коэффициент волшебства</h3>
-                        <div class="meter">
-                            <div class="meter-fill" style="width: 100%"></div>
-                        </div>
-                        <p>100%</p>
-                    </div>
-                </div>
-                
-                <!-- Мини-игра -->
-                <div class="mini-game" data-aos="flip-up">
-                    <h3><i class="fas fa-gamepad"></i> Мини-игра: Собери её улыбку</h3>
-                    <div class="puzzle-game" id="puzzleGame">
-                        <div class="puzzle-piece" data-piece="1">😊</div>
-                        <div class="puzzle-piece" data-piece="2">✨</div>
-                        <div class="puzzle-piece" data-piece="3">💖</div>
-                        <div class="puzzle-piece" data-piece="4">⭐</div>
-                    </div>
-                    <p class="game-hint">Кликай на частички в правильном порядке!</p>
-                    <div class="game-result" id="gameResult"></div>
-                </div>
-
-                <!-- Факт дня -->
-                <div class="daily-fact" data-aos="fade-up">
-                    <div class="fact-header">
-                        <i class="fas fa-lightbulb"></i>
-                        <h3>Факт о Кате дня</h3>
-                    </div>
-                    <div class="fact-content" id="dailyFact">
-                        Загрузка интересного факта...
-                    </div>
-                    <button class="fact-btn" onclick="showNewFact()">
-                        <i class="fas fa-sync-alt"></i> Новый факт
-                    </button>
-                </div>
-            </section>
-
-            <!-- Секция "Особенности" -->
-            <section class="section" id="about">
-                <h2 class="section-title" data-aos="fade-down">
-                    <i class="fas fa-crown"></i> Почему Катя — редкость
-                </h2>
-                
-                <div class="comparison-container">
-                    <div class="comparison-card" data-aos="fade-right">
-                        <h3><i class="fas fa-user-friends"></i> Обычные люди</h3>
-                        <ul class="comparison-list">
-                            <li><i class="fas fa-meh"></i> Улыбаются 20 раз в день</li>
-                            <li><i class="fas fa-cloud"></i> Замечают проблемы</li>
-                            <li><i class="fas fa-comment"></i> Говорят "привет"</li>
-                            <li><i class="fas fa-lightbulb"></i> Имеют 1-2 таланта</li>
-                            <li><i class="fas fa-heart"></i> Любят несколько людей</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="vs-circle" data-aos="zoom-in">
-                        <span>VS</span>
-                    </div>
-                    
-                    <div class="comparison-card special" data-aos="fade-left">
-                        <h3><i class="fas fa-angel"></i> Катя</h3>
-                        <ul class="comparison-list">
-                            <li><i class="fas fa-laugh-squint"></i> Улыбается 100+ раз в день</li>
-                            <li><i class="fas fa-sun"></i> Видит возможности даже в трудностях</li>
-                            <li><i class="fas fa-comment-dots"></i> Её "привет" согревает душу</li>
-                            <li><i class="fas fa-star"></i> Талантлива в 10+ сферах</li>
-                            <li><i class="fas fa-heartbeat"></i> Своей энергией заряжает всех вокруг</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Уникальные качества -->
-                <div class="qualities-grid">
-                    <div class="quality-card" data-aos="flip-left">
-                        <div class="quality-icon">
-                            <i class="fas fa-feather-alt"></i>
-                        </div>
-                        <h4>Лёгкость бытия</h4>
-                        <p>Рядом с ней проблемы кажутся пушинками, а обычные дни превращаются в праздники</p>
-                        <div class="quality-meter" data-quality="95"></div>
-                    </div>
-                    
-                    <div class="quality-card" data-aos="flip-left" data-aos-delay="100">
-                        <div class="quality-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h4>Ум + Душа</h4>
-                        <p>Редкое сочетание острого ума и невероятной душевной глубины</p>
-                        <div class="quality-meter" data-quality="99"></div>
-                    </div>
-                    
-                    <div class="quality-card" data-aos="flip-left" data-aos-delay="200">
-                        <div class="quality-icon">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                        <h4>Вдохновение</h4>
-                        <p>После общения с ней хочется творить, мечтать и становиться лучше</p>
-                        <div class="quality-meter" data-quality="97"></div>
-                    </div>
-                    
-                    <div class="quality-card" data-aos="flip-left" data-aos-delay="300">
-                        <div class="quality-icon">
-                            <i class="fas fa-radiation"></i>
-                        </div>
-                        <h4>Позитивная радиация</h4>
-                        <p>Её энергия исцеляет плохое настроение на расстоянии</p>
-                        <div class="quality-meter" data-quality="96"></div>
-                    </div>
-                </div>
-                
-                <!-- Интерактивная диаграмма -->
-                <div class="diagram-container" data-aos="zoom-in">
-                    <h3><i class="fas fa-chart-pie"></i> Её уникальность в цифрах</h3>
-                    <div class="diagram">
-                        <div class="diagram-item" data-skill="Доброта" data-value="98">
-                            <div class="diagram-bar"></div>
-                            <span>Доброта</span>
-                        </div>
-                        <div class="diagram-item" data-skill="Чувство юмора" data-value="95">
-                            <div class="diagram-bar"></div>
-                            <span>Юмор</span>
-                        </div>
-                        <div class="diagram-item" data-skill="Мудрость" data-value="92">
-                            <div class="diagram-bar"></div>
-                            <span>Мудрость</span>
-                        </div>
-                        <div class="diagram-item" data-skill="Креативность" data-value="96">
-                            <div class="diagram-bar"></div>
-                            <span>Креативность</span>
-                        </div>
-                        <div class="diagram-item" data-skill="Эмпатия" data-value="99">
-                            <div class="diagram-bar"></div>
-                            <span>Эмпатия</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Редкие суперсилы -->
-                <div class="superpowers-container" data-aos="fade-up">
-                    <h3><i class="fas fa-bolt"></i> Редкие суперсилы Кати</h3>
-                    <div class="superpowers-grid">
-                        <div class="superpower-card">
-                            <div class="superpower-icon">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <h4>Видение красоты</h4>
-                            <p>Находит прекрасное там, где другие видят обыденность</p>
-                        </div>
-                        <div class="superpower-card">
-                            <div class="superpower-icon">
-                                <i class="fas fa-wind"></i>
-                            </div>
-                            <h4>Успокоение бурь</h4>
-                            <p>Своим присутствием снимает любое напряжение</p>
-                        </div>
-                        <div class="superpower-card">
-                            <div class="superpower-icon">
-                                <i class="fas fa-seedling"></i>
-                            </div>
-                            <h4>Рост добра</h4>
-                            <p>Помогает хорошим качествам расти в других людях</p>
-                        </div>
-                        <div class="superpower-card">
-                            <div class="superpower-icon">
-                                <i class="fas fa-music"></i>
-                            </div>
-                            <h4>Мелодия души</h4>
-                            <p>Её голос звучит как музыка для сердца</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Галерея -->
-            <section class="section" id="gallery">
-                <h2 class="section-title" data-aos="fade-down">
-                    <i class="fas fa-camera-retro"></i> Галерея улыбок
-                </h2>
-                
-                <!-- Основные фото -->
-                <div class="photo-showcase">
-                    <div class="main-photo" data-aos="zoom-in">
-                        <div class="photo-frame">
-                            <img src="images/photo1.jpg" alt="Фото Кати 1" class="gallery-photo" id="mainPhoto1" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmY4NWEyIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EiIGZvbnQtc2l6ZT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSJ3aGl0ZSI+8J+SlTwvdGV4dD48dGV4dCB4PSI1MCUiIHk9IjYwJSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSIgZm9udC1zaXplPSIxNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iIGZpbGw9IndoaXRlIj5L0LHRgtCw0Y8gxLAg08KwPC90ZXh0Pjwvc3ZnPg=='">
-                            <div class="photo-caption">
-                                <i class="fas fa-heart"></i> Момент счастья #1
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="main-photo" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="photo-frame">
-                            <img src="images/photo2.jpg" alt="Фото Кати 2" class="gallery-photo" id="mainPhoto2" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGZiNGZlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EiIGZvbnQtc2l6ZT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSJ3aGl0ZSI+8J+SlTwvdGV4dD48dGV4dCB4PSI1MCUiIHk9IjYwJSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSIgZm9udC1zaXplPSIxNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iIGZpbGw9IndoaXRlIj7RgdC+0LfQtNCw0YDRjCAyPC90ZXh0Pjwvc3ZnPg=='">
-                            <div class="photo-caption">
-                                <i class="fas fa-star"></i> Момент счастья #2
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Генератор вариантов -->
-                <div class="photo-generator" data-aos="fade-up">
-                    <h3><i class="fas fa-magic"></i> Генератор воображаемых фото</h3>
-                    <p>Нажми, чтобы увидеть, как бы Катя выглядела в разных ситуациях</p>
-                    <div class="generator-buttons">
-                        <button class="gen-btn" onclick="generatePhoto('beach')">
-                            <i class="fas fa-umbrella-beach"></i> На пляже
-                        </button>
-                        <button class="gen-btn" onclick="generatePhoto('space')">
-                            <i class="fas fa-rocket"></i> В космосе
-                        </button>
-                        <button class="gen-btn" onclick="generatePhoto('queen')">
-                            <i class="fas fa-crown"></i> Как королева
-                        </button>
-                        <button class="gen-btn" onclick="generatePhoto('superhero')">
-                            <i class="fas fa-mask"></i> Как супергероиня
-                        </button>
-                    </div>
-                    <div class="generated-container">
-                        <div class="generated-photo" id="generatedPhoto">
-                            <div class="photo-placeholder">
-                                <i class="fas fa-image"></i>
-                                <p>Здесь появится воображаемое фото</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Виртуальная фотосессия -->
-                <div class="virtual-photosession" data-aos="fade-up">
-                    <h3><i class="fas fa-video"></i> Виртуальная фотосессия</h3>
-                    <div class="photosession-controls">
-                        <button class="ps-btn" onclick="changeFilter('vintage')">
-                            <i class="fas fa-camera-retro"></i> Винтаж
-                        </button>
-                        <button class="ps-btn" onclick="changeFilter('sunset')">
-                            <i class="fas fa-sun"></i> Закат
-                        </button>
-                        <button class="ps-btn" onclick="changeFilter('magic')">
-                            <i class="fas fa-hat-wizard"></i> Волшебство
-                        </button>
-                        <button class="ps-btn" onclick="changeFilter('original')">
-                            <i class="fas fa-undo"></i> Оригинал
-                        </button>
-                    </div>
-                    <div class="photosession-view">
-                        <div class="photo-display" id="photoDisplay">
-                            <img src="images/photo1.jpg" alt="Фотосессия Кати" id="sessionPhoto" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmY2Yjg3Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EiIGZvbnQtc2l6ZT0iNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSJ3aGl0ZSI+8J+OufCfjok8L3RleHQ+PHRleHQgeD0iNTAlIiB5PSI3MCUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EiIGZvbnQtc2l6ZT0iMTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSJ3aGl0ZSI+S9Cy0YLQsNGOINC60L7QvdC+0LfQutCwPC90ZXh0Pjwvc3ZnPg=='">
-                            <div class="filter-overlay" id="filterOverlay"></div>
-                        </div>
-                        <div class="photo-stats">
-                            <p><i class="fas fa-heart"></i> Лайков: <span id="likeCount">0</span></p>
-                            <button class="like-btn" onclick="likePhoto()">
-                                <i class="fas fa-heartbeat"></i> Суперлайк!
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Коллаж из эмодзи -->
-                <div class="emoji-collage" data-aos="zoom-in">
-                    <h3><i class="fas fa-smile-wink"></i> Катя в эмодзи</h3>
-                    <div class="emoji-grid" id="emojiGrid">
-                        <!-- Заполнится через JS -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- 100 причин -->
-            <section class="section" id="reasons">
-                <h2 class="section-title" data-aos="fade-down">
-                    <i class="fas fa-list-ol"></i> 100 причин, почему она особенная
-                </h2>
-                <p class="section-subtitle" data-aos="fade-up">(На самом деле причин больше, но мы ограничились сотней)</p>
-                
-                <div class="reasons-controls" data-aos="fade-up">
-                    <button class="filter-btn active" data-filter="all">Все причины</button>
-                    <button class="filter-btn" data-filter="smile">Улыбка</button>
-                    <button class="filter-btn" data-filter="character">Характер</button>
-                    <button class="filter-btn" data-filter="magic">Волшебство</button>
-                    <button class="filter-btn" data-filter="impact">Влияние</button>
-                    <button class="random-btn" onclick="showRandomReason()">
-                        <i class="fas fa-random"></i> Случайная причина
-                    </button>
-                </div>
-                
-                <div class="reasons-grid" id="reasonsGrid">
-                    <!-- Заполнится через JS -->
-                </div>
-                
-                <!-- Счётчик -->
-                <div class="counter-display" data-aos="zoom-in">
-                    <div class="counter-box">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Найдено причин</h3>
-                        <div class="counter-number" id="reasonsCount">0</div>
-                        <p>из 100</p>
-                    </div>
-                </div>
-
-                <!-- Генератор своей причины -->
-                <div class="custom-reason" data-aos="fade-up">
-                    <h3><i class="fas fa-edit"></i> Добавь свою причину</h3>
-                    <div class="custom-input">
-                        <input type="text" id="customReasonInput" placeholder="Почему Катя особенная для тебя?">
-                        <button class="custom-btn" onclick="addCustomReason()">
-                            <i class="fas fa-plus"></i> Добавить
-                        </button>
-                    </div>
-                    <div class="custom-reasons-list" id="customReasonsList">
-                        <!-- Пользовательские причины -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Мир её глазами -->
-            <section class="section" id="world">
-                <h2 class="section-title" data-aos="fade-down">
-                    <i class="fas fa-eye"></i> Мир глазами Кати
-                </h2>
-                
-                <!-- Цветовая палитра -->
-                <div class="color-world" data-aos="fade-up">
-                    <h3><i class="fas fa-palette"></i> Её цветовая палитра мира</h3>
-                    <div class="color-grid">
-                        <div class="color-item" style="background-color: #FFD6E7;">
-                            <span>Цвет утренней улыбки</span>
-                        </div>
-                        <div class="color-item" style="background-color: #C1F0FF;">
-                            <span>Цвет искреннего смеха</span>
-                        </div>
-                        <div class="color-item" style="background-color: #FFEAA7;">
-                            <span>Цвет тёплых мыслей</span>
-                        </div>
-                        <div class="color-item" style="background-color: #D8BFD8;">
-                            <span>Цвет лёгкой мечтательности</span>
-                        </div>
-                        <div class="color-item" style="background-color: #98FB98;">
-                            <span>Цвет добрых поступков</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Интерактивный пейзаж -->
-                <div class="interactive-world" data-aos="zoom-in">
-                    <h3><i class="fas fa-tree"></i> Интерактивный мир</h3>
-                    <p>Кликай на элементы, чтобы увидеть, как Катя преображает мир вокруг</p>
-                    
-                    <div class="world-scene">
-                        <div class="world-element sky" id="sky">
-                            <i class="fas fa-cloud"></i> Небо
-                        </div>
-                        <div class="world-element sun" id="sun">
-                            <i class="fas fa-sun"></i> Солнце
-                        </div>
-                        <div class="world-element tree" id="tree">
-                            <i class="fas fa-tree"></i> Дерево
-                        </div>
-                        <div class="world-element flower" id="flower">
-                            <i class="fas fa-seedling"></i> Цветок
-                        </div>
-                        <div class="world-element bird" id="bird">
-                            <i class="fas fa-dove"></i> Птица
-                        </div>
-                    </div>
-                    
-                    <div class="world-description" id="worldDescription">
-                        Нажми на любой элемент, чтобы увидеть её влияние
-                    </div>
-                </div>
-                
-                <!-- Генератор комплиментов -->
-                <div class="compliment-generator" data-aos="fade-up">
-                    <h3><i class="fas fa-comment-medical"></i> Генератор уникальных комплиментов</h3>
-                    <p>Сгенерируй комплимент, который подходит именно Кате</p>
-                    
-                    <div class="generator-result" id="complimentResult">
-                        Нажми кнопку для генерации!
-                    </div>
-                    
-                    <button class="generate-btn" onclick="generateCompliment()">
-                        <i class="fas fa-bolt"></i> Сгенерировать супер-комплимент
-                    </button>
-                    
-                    <div class="compliment-stats">
-                        <p><i class="fas fa-history"></i> Сгенерировано: <span id="complimentCount">0</span></p>
-                        <p><i class="fas fa-trophy"></i> Рекорд точности: <span id="accuracyRecord">0%</span></p>
-                    </div>
-                </div>
-
-                <!-- Волшебные места -->
-                <div class="magic-places" data-aos="fade-up">
-                    <h3><i class="fas fa-map-marked-alt"></i> Волшебные места Кати</h3>
-                    <div class="places-grid">
-                        <div class="place-card">
-                            <div class="place-icon">
-                                <i class="fas fa-coffee"></i>
-                            </div>
-                            <h4>Уютное кафе</h4>
-                            <p>Где она пьёт самый вкусный капучино</p>
-                        </div>
-                        <div class="place-card">
-                            <div class="place-icon">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <h4>Тайная библиотека</h4>
-                            <p>Где живут её любимые книги</p>
-                        </div>
-                        <div class="place-card">
-                            <div class="place-icon">
-                                <i class="fas fa-park"></i>
-                            </div>
-                            <h4>Солнечный парк</h4>
-                            <p>Где она заряжается энергией природы</p>
-                        </div>
-                        <div class="place-card">
-                            <div class="place-icon">
-                                <i class="fas fa-home"></i>
-                            </div>
-                            <h4>Тёплый дом</h4>
-                            <p>Где создаётся её личное волшебство</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Музыка -->
-            <section class="section" id="music">
-                <h2 class="section-title" data-aos="fade-down">
-                    <i class="fas fa-headphones-alt"></i> Саундтрек её вселенной
-                </h2>
-                
-                <!-- Основной плеер -->
-                <div class="music-player" data-aos="zoom-in">
-                    <div class="player-header">
-                        <i class="fas fa-music"></i>
-                        <h3>Тематическая мелодия</h3>
-                    </div>
-                    
-                    <div class="player-controls">
-                        <button class="player-btn" onclick="playMusic()" id="playBtn">
-                            <i class="fas fa-play"></i>
-                        </button>
-                        <button class="player-btn" onclick="pauseMusic()">
-                            <i class="fas fa-pause"></i>
-                        </button>
-                        <button class="player-btn" onclick="stopMusic()">
-                            <i class="fas fa-stop"></i>
-                        </button>
-                        <button class="player-btn" onclick="changeVolume(0.1)">
-                            <i class="fas fa-volume-up"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="player-info">
-                        <p id="nowPlaying">Готово к воспроизведению</p>
-                        <div class="volume-slider">
-                            <input type="range" min="0" max="100" value="50" class="slider" id="volumeSlider">
-                        </div>
-                    </div>
-                    
-                    <audio id="mainAudio" loop>
-                        <source src="music/song.mp3" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио элемент.
-                    </audio>
-                </div>
-                
-                <!-- Плейлист настроений -->
-                <div class="mood-playlist" data-aos="fade-left">
-                    <h3><i class="fas fa-list-music"></i> Плейлист её настроений</h3>
-                    
-                    <div class="mood-tracks">
-                        <div class="mood-track" data-mood="happy" onclick="playMood('happy')">
-                            <div class="mood-icon">
-                                <i class="fas fa-laugh-beam"></i>
-                            </div>
-                            <div class="mood-info">
-                                <h4>Утренняя радость</h4>
-                                <p>Лёгкая и солнечная, как её улыбка</p>
-                            </div>
-                            <div class="mood-play">
-                                <i class="fas fa-play-circle"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="mood-track" data-mood="dreamy" onclick="playMood('dreamy')">
-                            <div class="mood-icon">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <div class="mood-info">
-                                <h4>Мечтательное настроение</h4>
-                                <p>Когда мысли летят далеко-далеко</p>
-                            </div>
-                            <div class="mood-play">
-                                <i class="fas fa-play-circle"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="mood-track" data-mood="magic" onclick="playMood('magic')">
-                            <div class="mood-icon">
-                                <i class="fas fa-hat-wizard"></i>
-                            </div>
-                            <div class="mood-info">
-                                <h4>Волшебный момент</h4>
-                                <p>Когда происходит что-то особенное</p>
-                            </div>
-                            <div class="mood-play">
-                                <i class="fas fa-play-circle"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="mood-track" data-mood="cozy" onclick="playMood('cozy')">
-                            <div class="mood-icon">
-                                <i class="fas fa-mug-hot"></i>
-                            </div>
-                            <div class="mood-info">
-                                <h4>Уютный вечер</h4>
-                                <p>Тёплое и спокойное настроение</p>
-                            </div>
-                            <div class="mood-play">
-                                <i class="fas fa-play-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Визуализатор -->
-                <div class="visualizer-container" data-aos="fade-right">
-                    <h3><i class="fas fa-wave-square"></i> Визуализатор её энергии</h3>
-                    <canvas id="visualizerCanvas" width="800" height="200"></canvas>
-                    <div class="visualizer-controls">
-                        <button class="viz-btn" onclick="changeVisualizerMode('heart')">
-                            <i class="fas fa-heart"></i> Сердечки
-                        </button>
-                        <button class="viz-btn" onclick="changeVisualizerMode('stars')">
-                            <i class="fas fa-star"></i> Звёзды
-                        </button>
-                        <button class="viz-btn" onclick="changeVisualizerMode('particles')">
-                            <i class="fas fa-atom"></i> Частицы
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Песни, которые могли бы быть о ней -->
-                <div class="song-suggestions" data-aos="fade-up">
-                    <h3><i class="fas fa-compact-disc"></i> Песни, которые могли бы быть о Кате</h3>
-                    <div class="songs-list">
-                        <div class="song-item">
-                            <div class="song-icon">
-                                <i class="fas fa-sun"></i>
-                            </div>
-                            <div class="song-info">
-                                <h4>"Here Comes the Sun"</h4>
-                                <p>The Beatles — потому что она как восход солнца</p>
-                            </div>
-                        </div>
-                        <div class="song-item">
-                            <div class="song-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="song-info">
-                                <h4>"You Are My Sunshine"</h4>
-                                <p>Johnny Cash — классика, которая ей подходит</p>
-                            </div>
-                        </div>
-                        <div class="song-item">
-                            <div class="song-icon">
-                                <i class="fas fa-magic"></i>
-                            </div>
-                            <div class="song-info">
-                                <h4>"Magical Mystery Tour"</h4>
-                                <p>The Beatles — путешествие в её волшебный мир</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Секретная комната -->
-            <section class="section" id="secret">
-                <div class="secret-room" data-aos="flip-up">
-                    <div class="secret-header">
-                        <i class="fas fa-lock"></i>
-                        <h2>Секретная комната</h2>
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    
-                    <div class="secret-message">
-                        <p>Эта комната открывается только тем, кто знает секретный код.</p>
-                        <p>Подсказка: код — это количество букв в её имени, умноженное на число её главных суперсил.</p>
-                        <p class="hint">(4 буквы × 5 суперсил = ?)</p>
-                    </div>
-                    
-                    <div class="code-input">
-                        <input type="number" id="secretCode" placeholder="Введите код доступа">
-                        <button class="secret-btn" onclick="checkSecretCode()">
-                            <i class="fas fa-key"></i> Открыть
-                        </button>
-                    </div>
-                    
-                    <div class="attempts-counter">
-                        Попыток: <span id="attemptCount">0</span>/3
-                    </div>
-                    
-                    <div class="secret-content" id="secretContent">
-                        <!-- Содержимое откроется после ввода кода -->
-                    </div>
-                </div>
-
-                <!-- Тайные послания -->
-                <div class="secret-messages" data-aos="fade-up">
-                    <h3><i class="fas fa-envelope"></i> Тайные послания</h3>
-                    <div class="messages-container">
-                        <div class="message-bottle" onclick="openMessage(1)">
-                            <i class="fas fa-wine-bottle"></i>
-                            <p>Бутылка #1</p>
-                        </div>
-                        <div class="message-bottle" onclick="openMessage(2)">
-                            <i class="fas fa-wine-bottle"></i>
-                            <p>Бутылка #2</p>
-                        </div>
-                        <div class="message-bottle" onclick="openMessage(3)">
-                            <i class="fas fa-wine-bottle"></i>
-                            <p>Бутылка #3</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Футер с доп. функциями -->
-        <footer class="footer">
-            <div class="footer-controls">
-                <button class="footer-btn" onclick="toggleDarkMode()">
-                    <i class="fas fa-moon"></i> Ночной режим
-                </button>
-                <button class="footer-btn" onclick="makeItRainHearts()">
-                    <i class="fas fa-heart"></i> Дождь из сердец
-                </button>
-                <button class="footer-btn" onclick="showSurprise()">
-                    <i class="fas fa-gift"></i> Сюрприз
-                </button>
-                <button class="footer-btn" onclick="shareSite()">
-                    <i class="fas fa-share-alt"></i> Поделиться
-                </button>
-                <button class="footer-btn" onclick="showEasterEgg()">
-                    <i class="fas fa-egg"></i> Пасхалка
-                </button>
-            </div>
-            
-            <div class="site-stats">
-                <div class="stat-item">
+                <div class="stat">
                     <i class="fas fa-heart"></i>
-                    <span id="totalHearts">0</span>
+                    <span id="heartCount">0</span>
                     <small>сердец</small>
                 </div>
-                <div class="stat-item">
-                    <i class="fas fa-star"></i>
-                    <span id="totalStars">0</span>
-                    <small>звёзд</small>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-clock"></i>
-                    <span id="timeSpent">0</span>
-                    <small>минут здесь</small>
-                </div>
             </div>
-            
-            <div class="footer-message">
-                <p>Сайт создан с 💖 для самой особенной Кати</p>
-                <p class="copyright">© 2024 Волшебный мир Кати | Все права на улыбки защищены</p>
-                <p class="secret-note">P.S. Катя, если ты это читаешь — ты прекрасна!</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Модальные окна будут создаваться динамически -->
-
-    <!-- Скрипты -->
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script src="script.js"></script>
+            <p class="footer-note">
+                Сайт создан с особой заботой для Кати © 2024
+            </p>
+        </div>
+    </footer>
     
-    <!-- Дополнительные стили для специфичных элементов -->
-    <style>
-        .loader-progress {
-            width: 200px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-        
-        .loader-bar {
-            height: 100%;
-            background: var(--gradient);
-            width: 0%;
-            animation: loading 2s ease-in-out infinite;
-        }
-        
-        .daily-fact {
-            margin-top: 3rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, rgba(255, 107, 139, 0.1), rgba(255, 209, 102, 0.1));
-            border-radius: 20px;
-            text-align: center;
-            border: 2px solid rgba(255, 107, 139, 0.2);
-        }
-        
-        .fact-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .fact-header i {
-            font-size: 2rem;
-            color: var(--primary-color);
-        }
-        
-        .fact-content {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .fact-btn {
-            background: rgba(255, 107, 139, 0.2);
-            border: 2px solid var(--primary-color);
-            color: var(--text-color);
-            padding: 10px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .fact-btn:hover {
-            background: rgba(255, 107, 139, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .superpowers-container {
-            margin: 4rem 0;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            text-align: center;
-        }
-        
-        .superpowers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 2rem;
-        }
-        
-        .superpower-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            border: 2px solid rgba(255, 107, 139, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .superpower-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary-color);
-            box-shadow: 0 10px 25px rgba(255, 107, 139, 0.2);
-        }
-        
-        .superpower-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .emoji-collage {
-            margin: 4rem 0;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            text-align: center;
-        }
-        
-        .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-            gap: 15px;
-            margin-top: 2rem;
-            font-size: 2rem;
-        }
-        
-        .custom-reason {
-            margin: 4rem 0;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            text-align: center;
-        }
-        
-        .custom-input {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-        
-        #customReasonInput {
-            flex: 1;
-            max-width: 400px;
-            padding: 15px;
-            border: 2px solid rgba(255, 107, 139, 0.3);
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-color);
-            font-size: 1rem;
-        }
-        
-        .custom-btn {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .custom-reasons-list {
-            margin-top: 2rem;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-        }
-        
-        .magic-places {
-            margin: 4rem 0;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            text-align: center;
-        }
-        
-        .places-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin-top: 2rem;
-        }
-        
-        .place-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 2px solid rgba(255, 107, 139, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .place-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-        }
-        
-        .place-icon {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .song-suggestions {
-            margin: 4rem 0;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-        }
-        
-        .songs-list {
-            margin-top: 2rem;
-        }
-        
-        .song-item {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-        
-        .song-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(10px);
-        }
-        
-        .song-icon {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-        
-        .song-info h4 {
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-        
-        .secret-messages {
-            margin-top: 4rem;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            text-align: center;
-        }
-        
-        .messages-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .message-bottle {
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .message-bottle:hover {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
-        }
-        
-        .message-bottle i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: #8b5cf6;
-        }
-        
-        .site-stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 25px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            min-width: 100px;
-        }
-        
-        .stat-item i {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        
-        .stat-item span {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        
-        .copyright {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: var(--secondary-color);
-        }
-        
-        .secret-note {
-            margin-top: 0.5rem;
-            font-style: italic;
-            color: var(--primary-color);
-            opacity: 0.8;
-        }
-        
-        .hint {
-            color: var(--primary-color);
-            font-weight: bold;
-            margin-top: 10px;
-            font-size: 1.1rem;
-        }
-        
-        @keyframes loading {
-            0% { width: 0%; }
-            50% { width: 100%; }
-            100% { width: 0%; }
-        }
-        
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .custom-input {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            #customReasonInput {
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .site-stats {
-                gap: 20px;
-            }
-            
-            .stat-item {
-                min-width: 80px;
-                padding: 10px 15px;
-            }
-            
-            .messages-container {
-                gap: 15px;
-            }
-            
-            .message-bottle {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .emoji-grid {
-                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-                font-size: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .superpowers-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .places-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stat-item {
-                min-width: 70px;
-                padding: 8px 12px;
-            }
-            
-            .stat-item span {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    <!-- Скрипты -->
+    <script src="script.js"></script>
 </body>
 </html>
