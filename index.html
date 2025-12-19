@@ -6,32 +6,21 @@
     <title>💌 Письмо Кате</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💌</text></svg>">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
-    </style>
 </head>
 <body>
     <!-- Фоновые элементы -->
     <div class="paper-texture"></div>
     <div class="ink-blots"></div>
-    <div class="floating-letters"></div>
     
-    <!-- Эффект свечи -->
-    <div class="candle-effect">
-        <div class="candle-flame"></div>
-        <div class="candle-light"></div>
-    </div>
-    
-    <!-- Меню музыки -->
+    <!-- Музыкальные контролы -->
     <div class="music-controls">
         <button id="musicToggle" class="music-btn">
             <i class="fas fa-music"></i>
         </button>
-        <div class="volume-control">
-            <input type="range" id="volumeSlider" min="0" max="100" value="30">
-        </div>
     </div>
     
     <!-- Главный контейнер -->
@@ -60,7 +49,7 @@
             <div class="letter-paper">
                 <!-- Заголовок письма -->
                 <div class="letter-header">
-                    <div class="letter-date" id="currentDate">Загрузка даты...</div>
+                    <div class="letter-date" id="currentDate"></div>
                     <div class="letter-location">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>От сердца к сердцу</span>
@@ -80,9 +69,7 @@
                 <!-- Текст письма с печатной машинкой -->
                 <div class="letter-content">
                     <div class="typewriter-container">
-                        <div class="typewriter-text" id="typewriterText">
-                            <!-- Текст будет добавляться постепенно -->
-                        </div>
+                        <div class="typewriter-text" id="typewriterText"></div>
                         <div class="cursor" id="cursor">|</div>
                         
                         <!-- Прогресс письма -->
@@ -169,47 +156,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Эффекты -->
-        <div class="effects-container">
-            <div class="hearts-container" id="heartsContainer"></div>
-            <div class="sparkles-container" id="sparklesContainer"></div>
-        </div>
-    </div>
-    
-    <!-- Аудио -->
-    <audio id="typewriterSound" preload="auto">
-        <source src="sounds/typewriter.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="pageTurnSound" preload="auto">
-        <source src="sounds/page-turn.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="musicTrack" loop>
-        <source src="music/romantic-piano.mp3" type="audio/mpeg">
-    </audio>
-    
-    <!-- Модальное окно для секретного сообщения -->
-    <div class="modal" id="secretModal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-header">
-                <i class="fas fa-lock-open"></i>
-                <h2>Секретное послание</h2>
-            </div>
-            <div class="modal-body">
-                <p class="secret-date">Дата: <span id="secretDate"></span></p>
-                <div class="secret-text">
-                    Катя, даже если это письмо — просто момент в твоей жизни, 
-                    я счастлив, что смог его создать. Ты вдохновляешь на прекрасное.
-                </div>
-                <div class="secret-code">
-                    <p>Код этого письма: <span class="code">КАТЯ-2024</span></p>
-                </div>
-            </div>
-            <button class="modal-btn" onclick="createFireworks()">
-                <i class="fas fa-fireworks"></i> Запустить фейерверк
-            </button>
-        </div>
     </div>
     
     <!-- Футер -->
@@ -240,7 +186,7 @@
             </p>
         </div>
     </footer>
-    
+
     <!-- Скрипты -->
     <script src="script.js"></script>
 </body>
